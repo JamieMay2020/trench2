@@ -1,0 +1,664 @@
+/* Animation Styles */
+
+/* Boot Animation */
+@keyframes bootFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes scanlines {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 10px;
+    }
+}
+
+@keyframes flicker {
+    0%, 100% {
+        opacity: 1;
+    }
+    92% {
+        opacity: 0.9;
+    }
+    95% {
+        opacity: 0.7;
+    }
+    97% {
+        opacity: 0.9;
+    }
+}
+
+@keyframes powerOn {
+    0% {
+        opacity: 0;
+        filter: brightness(0) contrast(0);
+    }
+    20% {
+        opacity: 1;
+        filter: brightness(2) contrast(0.5);
+    }
+    40% {
+        filter: brightness(0.5) contrast(1.5);
+    }
+    60% {
+        filter: brightness(1.2) contrast(0.8);
+    }
+    100% {
+        opacity: 1;
+        filter: brightness(1) contrast(1);
+    }
+}
+
+@keyframes ledPulse {
+    0%, 100% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+        filter: brightness(1.2);
+    }
+}
+
+/* Screen Effects */
+.gameboy.powered-on .screen {
+    position: relative;
+    animation: flicker 10s infinite;
+}
+
+.gameboy.powered-on .screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.1) 2px,
+            rgba(0, 0, 0, 0.1) 4px
+        );
+    pointer-events: none;
+    z-index: 100;
+    animation: scanlines 8s linear infinite;
+}
+
+.gameboy.powered-on .screen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        transparent 60%,
+        rgba(0, 0, 0, 0.3) 100%
+    );
+    pointer-events: none;
+    z-index: 101;
+}
+
+/* Boot Screen Animation */
+.boot-screen.animating {
+    animation: powerOn 2s ease-out;
+}
+
+.boot-screen.animating .nintendo-logo {
+    animation: bootFadeIn 1.5s ease-out 0.5s both;
+}
+
+.boot-screen.animating .boot-instructions {
+    animation: slideIn 1s ease-out 1.5s both;
+    opacity: 0;
+}
+
+@keyframes instructionsFade {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.boot-screen.animating .instruction-line {
+    animation: instructionsFade 0.8s ease-out forwards;
+}
+
+.boot-screen.animating .instruction-line:nth-child(1) {
+    animation-delay: 1.8s;
+}
+
+.boot-screen.animating .instruction-line:nth-child(2) {
+    animation-delay: 2.1s;
+}
+
+/* Menu Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes gameSlotPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.menu-screen {
+    animation: slideIn 0.5s ease-out;
+}
+
+.menu-title {
+    animation: slideIn 0.5s ease-out 0.1s both;
+}
+
+.game-slot {
+    animation: slideIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.game-slot:nth-child(1) { animation-delay: 0.1s; }
+.game-slot:nth-child(2) { animation-delay: 0.15s; }
+.game-slot:nth-child(3) { animation-delay: 0.2s; }
+.game-slot:nth-child(4) { animation-delay: 0.25s; }
+.game-slot:nth-child(5) { animation-delay: 0.3s; }
+.game-slot:nth-child(6) { animation-delay: 0.35s; }
+
+.game-slot.active {
+    animation: gameSlotPulse 2s ease-in-out infinite;
+}
+
+/* Submenu Animations */
+.submenu-screen {
+    animation: slideIn 0.3s ease-out;
+}
+
+.submenu-title {
+    animation: slideIn 0.3s ease-out 0.1s both;
+}
+
+.submenu-option {
+    animation: slideIn 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+.submenu-option:nth-child(1) { animation-delay: 0.15s; }
+.submenu-option:nth-child(2) { animation-delay: 0.2s; }
+.submenu-option:nth-child(3) { animation-delay: 0.25s; }
+
+/* Button Press Animations */
+.dpad > div:active,
+.action-button:active,
+.option-button:active {
+    /* Remove animation for button press */
+}
+
+/* Power LED Animation */
+.power-led.on {
+    animation: ledPulse 2s ease-in-out infinite;
+}
+
+/* Screen Transition */
+@keyframes screenTransition {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.transitioning {
+    animation: screenTransition 0.5s ease-in-out;
+}
+
+/* Game Start Animation */
+@keyframes gameStart {
+    0% {
+        filter: blur(10px) brightness(2);
+        transform: scale(0.9);
+    }
+    50% {
+        filter: blur(5px) brightness(1.5);
+        transform: scale(1.05);
+    }
+    100% {
+        filter: blur(0) brightness(1);
+        transform: scale(1);
+    }
+}
+
+.game-starting {
+    animation: gameStart 0.8s ease-out;
+}
+
+/* Glitch Effect */
+@keyframes glitch {
+    0%, 100% {
+        transform: translate(0);
+        filter: hue-rotate(0deg);
+    }
+    20% {
+        transform: translate(-1px, 1px);
+        filter: hue-rotate(90deg);
+    }
+    40% {
+        transform: translate(1px, -1px);
+        filter: hue-rotate(180deg);
+    }
+    60% {
+        transform: translate(0, 1px);
+        filter: hue-rotate(270deg);
+    }
+    80% {
+        transform: translate(-1px, 0);
+        filter: hue-rotate(360deg);
+    }
+}
+
+/* Optional: Add glitch effect on game over or special events */
+.glitch {
+    animation: glitch 0.3s ease-in-out;
+}
+
+/* Loading Dots */
+@keyframes loadingDots {
+    0%, 20% {
+        content: '.';
+    }
+    40% {
+        content: '..';
+    }
+    60%, 100% {
+        content: '...';
+    }
+}
+
+.loading::after {
+    content: '.';
+    animation: loadingDots 1.5s infinite;
+}/* Menu Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes gameSlotPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.menu-screen {
+    animation: slideIn 0.5s ease-out;
+}
+
+.menu-title {
+    animation: slideIn 0.5s ease-out 0.1s both;
+}
+
+.game-slot {
+    animation: slideIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.game-slot:nth-child(1) { animation-delay: 0.1s; }
+.game-slot:nth-child(2) { animation-delay: 0.15s; }
+.game-slot:nth-child(3) { animation-delay: 0.2s; }
+.game-slot:nth-child(4) {/* Animation Styles */
+
+/* Boot Animation */
+@keyframes bootFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes scanlines {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 10px;
+    }
+}
+
+@keyframes flicker {
+    0%, 100% {
+        opacity: 1;
+    }
+    92% {
+        opacity: 0.9;
+    }
+    95% {
+        opacity: 0.7;
+    }
+    97% {
+        opacity: 0.9;
+    }
+}
+
+@keyframes powerOn {
+    0% {
+        opacity: 0;
+        filter: brightness(0) contrast(0);
+    }
+    20% {
+        opacity: 1;
+        filter: brightness(2) contrast(0.5);
+    }
+    40% {
+        filter: brightness(0.5) contrast(1.5);
+    }
+    60% {
+        filter: brightness(1.2) contrast(0.8);
+    }
+    100% {
+        opacity: 1;
+        filter: brightness(1) contrast(1);
+    }
+}
+
+@keyframes ledPulse {
+    0%, 100% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+        filter: brightness(1.2);
+    }
+}
+
+/* Screen Effects */
+.gameboy.powered-on .screen {
+    position: relative;
+    animation: flicker 10s infinite;
+}
+
+.gameboy.powered-on .screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.1) 2px,
+            rgba(0, 0, 0, 0.1) 4px
+        );
+    pointer-events: none;
+    z-index: 100;
+    animation: scanlines 8s linear infinite;
+}
+
+.gameboy.powered-on .screen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        transparent 60%,
+        rgba(0, 0, 0, 0.3) 100%
+    );
+    pointer-events: none;
+    z-index: 101;
+}
+
+/* Boot Screen Animation */
+.boot-screen.animating {
+    animation: powerOn 2s ease-out;
+}
+
+.boot-screen.animating .nintendo-logo {
+    animation: bootFadeIn 1.5s ease-out 0.5s both;
+}
+
+.boot-screen.animating .boot-instructions {
+    animation: slideIn 1s ease-out 1.5s both;
+    opacity: 0;
+}
+
+@keyframes instructionsFade {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.boot-screen.animating .instruction-line {
+    animation: instructionsFade 0.8s ease-out forwards;
+}
+
+.boot-screen.animating .instruction-line:nth-child(1) {
+    animation-delay: 1.8s;
+}
+
+.boot-screen.animating .instruction-line:nth-child(2) {
+    animation-delay: 2.1s;
+}
+
+/* Menu Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes gameSlotPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.menu-screen {
+    animation: slideIn 0.5s ease-out;
+}
+
+.menu-title {
+    animation: slideIn 0.5s ease-out 0.1s both;
+}
+
+.game-slot {
+    animation: slideIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.game-slot:nth-child(1) { animation-delay: 0.1s; }
+.game-slot:nth-child(2) { animation-delay: 0.15s; }
+.game-slot:nth-child(3) { animation-delay: 0.2s; }
+.game-slot:nth-child(4) { animation-delay: 0.25s; }
+.game-slot:nth-child(5) { animation-delay: 0.3s; }
+.game-slot:nth-child(6) { animation-delay: 0.35s; }
+
+.game-slot.active {
+    animation: gameSlotPulse 2s ease-in-out infinite;
+}
+
+/* Submenu Animations */
+.submenu-screen {
+    animation: slideIn 0.3s ease-out;
+}
+
+.submenu-title {
+    animation: slideIn 0.3s ease-out 0.1s both;
+}
+
+.submenu-option {
+    animation: slideIn 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+.submenu-option:nth-child(1) { animation-delay: 0.15s; }
+.submenu-option:nth-child(2) { animation-delay: 0.2s; }
+.submenu-option:nth-child(3) { animation-delay: 0.25s; }
+
+/* Button Press Animations */
+.dpad > div:active,
+.action-button:active,
+.option-button:active {
+    /* Remove animation for button press */
+}
+
+/* Power LED Animation */
+.power-led.on {
+    animation: ledPulse 2s ease-in-out infinite;
+}
+
+/* Screen Transition */
+@keyframes screenTransition {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.transitioning {
+    animation: screenTransition 0.5s ease-in-out;
+}
+
+/* Game Start Animation */
+@keyframes gameStart {
+    0% {
+        filter: blur(10px) brightness(2);
+        transform: scale(0.9);
+    }
+    50% {
+        filter: blur(5px) brightness(1.5);
+        transform: scale(1.05);
+    }
+    100% {
+        filter: blur(0) brightness(1);
+        transform: scale(1);
+    }
+}
+
+.game-starting {
+    animation: gameStart 0.8s ease-out;
+}
+
+/* Glitch Effect */
+@keyframes glitch {
+    0%, 100% {
+        transform: translate(0);
+        filter: hue-rotate(0deg);
+    }
+    20% {
+        transform: translate(-1px, 1px);
+        filter: hue-rotate(90deg);
+    }
+    40% {
+        transform: translate(1px, -1px);
+        filter: hue-rotate(180deg);
+    }
+    60% {
+        transform: translate(0, 1px);
+        filter: hue-rotate(270deg);
+    }
+    80% {
+        transform: translate(-1px, 0);
+        filter: hue-rotate(360deg);
+    }
+}
+
+/* Optional: Add glitch effect on game over or special events */
+.glitch {
+    animation: glitch 0.3s ease-in-out;
+}
+
+/* Loading Dots */
+@keyframes loadingDots {
+    0%, 20% {
+        content: '.';
+    }
+    40% {
+        content: '..';
+    }
+    60%, 100% {
+        content: '...';
+    }
+}
+
+.loading::after {
+    content: '.';
+    animation: loadingDots 1.5s infinite;
+}}

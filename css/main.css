@@ -1,0 +1,144 @@
+/* Global Styles and Variables */
+:root {
+    /* Color Palette */
+    --bg-primary: #2C1B3D;
+    --bg-secondary: #1F1329;
+    --gameboy-body: #D3D4AA;
+    --gameboy-shadow: #B5B6A0;
+    --gameboy-highlight: #E5E6CC;
+    
+    /* Default Green Theme */
+    --screen-green-1: #9BBC0F;
+    --screen-green-2: #8BAC0F;
+    --screen-green-3: #306230;
+    --screen-green-4: #0F380F;
+    
+    /* Teal/Blue Theme */
+    --teal-1: #84D2E8;
+    --teal-2: #4B8B9B;
+    --teal-3: #294C60;
+    --teal-4: #001B2E;
+    
+    /* Orange/Brown Theme */
+    --orange-1: #FF9E00;
+    --orange-2: #B85C00;
+    --orange-3: #5C2E00;
+    --orange-4: #1A0707;
+    
+    --button-purple: #6B3E6F;
+    --button-purple-dark: #4A2B4D;
+    --text-dark: #2C2C2C;
+    --power-led: #FF0000;
+    
+    /* Pixel Font */
+    --pixel-font: 'Courier New', monospace; /* Will be replaced with actual pixel font */
+}
+
+/* Color Theme Classes */
+.gameboy.theme-teal {
+    --screen-green-1: var(--teal-1);
+    --screen-green-2: var(--teal-2);
+    --screen-green-3: var(--teal-3);
+    --screen-green-4: var(--teal-4);
+}
+
+.gameboy.theme-orange {
+    --screen-green-1: var(--orange-1);
+    --screen-green-2: var(--orange-2);
+    --screen-green-3: var(--orange-3);
+    --screen-green-4: var(--orange-4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--bg-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    user-select: none;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    perspective: 1000px;
+}
+
+/* Typography for pixel text */
+.pixel-text {
+    font-family: var(--pixel-font);
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 1px;
+}
+
+/* Button press effect */
+.pressed {
+    transform: scale(0.95);
+}
+
+/* Hidden by default */
+.hidden {
+    display: none !important;
+}
+
+/* Canvas styling */
+#game-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    display: none; /* Hidden until game starts */
+}
+
+/* Utility classes */
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Custom scrollbar for future use */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--button-purple);
+    border-radius: 4px;
+}
+
+/* Focus styles for accessibility */
+*:focus {
+    outline: none;
+}
+
+/* Cursor styles */
+.clickable {
+    cursor: pointer;
+}
+
+/* Z-index layers */
+.z-10 { z-index: 10; }
+.z-20 { z-index: 20; }
+.z-30 { z-index: 30; }

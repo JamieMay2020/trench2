@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nintendo TrenchBoy</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/gameboy.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <div class="container">
+        <div class="gameboy" id="gameboy">
+            <!-- Power switch at the top -->
+            <div class="power-switch-container">
+                <span class="switch-label off-label">OFF</span>
+                <div class="power-switch" id="power-switch">
+                    <div class="switch-slider"></div>
+                </div>
+                <span class="switch-label on-label">ON</span>
+            </div>
+            
+            <!-- Top section with branding -->
+            <div class="gameboy-top">
+                <div class="stripe-decoration"></div>
+                <div class="branding">
+                    <span class="nintendo-text">Nintendo</span>
+                    <span class="trenchboy-text">TRENCH BOY</span>
+                </div>
+            </div>
+            
+            <!-- Screen section -->
+            <div class="screen-container">
+                <div class="screen-border">
+                    <div class="screen" id="screen">
+                        <canvas id="game-canvas" width="480" height="432"></canvas>
+                        <div class="screen-overlay" id="screen-overlay">
+                            <div class="boot-screen" id="boot-screen" style="display: none;">
+                                <div class="nintendo-logo">Nintendo®</div>
+                                <div class="boot-instructions">
+                                    <div class="instruction-line">USE ARROW KEYS TO PLAY</div>
+                                    <div class="instruction-line">PRESS ENTER TO SELECT</div>
+                                </div>
+                            </div>
+                            <div class="menu-screen" id="menu-screen" style="display: none;">
+                                <h2 class="menu-title">SELECT GAME</h2>
+                                <div class="game-grid">
+                                    <div class="game-slot active" data-game="snake">
+                                        <div class="game-icon">🐍</div>
+                                        <div class="game-name">SNAKE</div>
+                                    </div>
+                                    <div class="game-slot" data-game="pong">
+                                        <div class="game-icon">🏓</div>
+                                        <div class="game-name">PONG</div>
+                                    </div>
+                                    <div class="game-slot" data-game="tetris">
+                                        <div class="game-icon">🔲</div>
+                                        <div class="game-name">TETRIS</div>
+                                    </div>
+                                    <div class="game-slot" data-game="twitter">
+                                        <div class="game-icon">𝕏</div>
+                                        <div class="game-name">TWITTER</div>
+                                    </div>
+                                    <div class="game-slot" data-game="ca">
+                                        <div class="game-icon game-icon-text">CA</div>
+                                        <div class="game-name">CONTRACT</div>
+                                    </div>
+                                    <div class="game-slot" data-game="settings">
+                                        <div class="game-icon">⚙️</div>
+                                        <div class="game-name">SETTINGS</div>
+                                    </div>
+                                </div>
+                                <div class="menu-hint">Use ARROW KEYS to select • ENTER to play</div>
+                            </div>
+                            <div class="submenu-screen" id="submenu-screen" style="display: none;">
+                                <h2 class="submenu-title" id="submenu-title">SNAKE</h2>
+                                <div class="submenu-options">
+                                    <div class="submenu-option active" data-option="play">
+                                        <span class="option-arrow">▶</span>
+                                        <span class="option-text">PLAY GAME</span>
+                                    </div>
+                                    <div class="submenu-option" data-option="leaderboard">
+                                        <span class="option-arrow"></span>
+                                        <span class="option-text">LEADERBOARD</span>
+                                    </div>
+                                    <div class="submenu-option" data-option="return">
+                                        <span class="option-arrow"></span>
+                                        <span class="option-text">RETURN</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="screen-label">DOT MATRIX WITH STEREO SOUND</div>
+                </div>
+                <div class="power-led" id="power-led"></div>
+                <div class="power-label">POWER</div>
+            </div>
+            
+            <!-- Controls section -->
+            <div class="controls">
+                <div class="dpad-container">
+                    <div class="dpad">
+                        <div class="dpad-up" data-key="up"></div>
+                        <div class="dpad-right" data-key="right"></div>
+                        <div class="dpad-down" data-key="down"></div>
+                        <div class="dpad-left" data-key="left"></div>
+                        <div class="dpad-center"></div>
+                    </div>
+                </div>
+                
+                <div class="buttons-container">
+                    <div class="button-group">
+                        <div class="action-button button-b" data-key="b">B</div>
+                        <div class="action-button button-a" data-key="a">A</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom controls -->
+            <div class="bottom-controls">
+                <div class="option-button button-return">RETURN</div>
+                <div class="option-button button-start">START</div>
+            </div>
+            
+            <!-- Speaker grille -->
+            <div class="speaker-grille">
+                <div class="speaker-line"></div>
+                <div class="speaker-line"></div>
+                <div class="speaker-line"></div>
+                <div class="speaker-line"></div>
+                <div class="speaker-line"></div>
+                <div class="speaker-line"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Core scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/gameboy.js"></script>
+    <script src="js/audio.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Leaderboard system (must load after Firebase) -->
+    <script src="js/leaderboard.js"></script>
+    
+    <!-- Games (load after leaderboard for score submission) -->
+    <script src="js/games/game-engine.js"></script>
+    <script src="js/games/snake.js"></script>
+    <script src="js/games/pong.js"></script>
+    <script src="js/games/tetris.js"></script>
+</body>
+</html>
