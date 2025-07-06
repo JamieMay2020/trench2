@@ -31,6 +31,8 @@ class TetrisGame extends GameEngine {
         this.dasDelay = 150;
         this.dasSpeed = 50;
         this.lastMoveDirection = 0;
+        this.rotatePressed = false; // Initialize rotation flag
+        this.hardDropPressed = false; // Initialize hard drop flag
         
         // Scoring
         this.level = 1;
@@ -87,6 +89,8 @@ class TetrisGame extends GameEngine {
         this.lines = 0;
         this.dropDelay = 800;
         this.pieceBag = [];
+        this.rotatePressed = false;
+        this.hardDropPressed = false;
         
         // Spawn first pieces
         this.nextPiece = this.getNextPiece();
@@ -124,6 +128,8 @@ class TetrisGame extends GameEngine {
     }
     
     update(deltaTime) {
+        if (this.gameOver || this.paused) return;
+        
         // Handle input
         this.handleTetrisInput(deltaTime);
         
@@ -144,10 +150,10 @@ class TetrisGame extends GameEngine {
     }
     
     handleTetrisInput(deltaTime) {
-        // Rotation
+        // Rotation - A button rotates counter-clockwise, B button rotates clockwise
         if (this.keys.a || this.keys.b) {
             if (!this.rotatePressed) {
-                this.rotatePiece(this.keys.a ? 1 : -1);
+                this.rotatePiece(this.keys.a ? -1 : 1);
                 this.rotatePressed = true;
                 
                 // Reset lock timer on successful rotation
@@ -260,7 +266,7 @@ class TetrisGame extends GameEngine {
         
         // Wall kicks for all pieces except O
         if (this.currentPiece !== 'O') {
-            const kicks = this.getWallKicks(oldRotation, this.rotation);
+            const kicks = this.getWallKicks(this.currentPiece, oldRotation, this.rotation);
             for (let kick of kicks) {
                 if (this.isValidPosition(this.pieceX + kick[0], this.pieceY + kick[1], piece)) {
                     this.pieceX += kick[0];
@@ -277,12 +283,49 @@ class TetrisGame extends GameEngine {
         this.rotation = oldRotation;
     }
     
-    getWallKicks(fromRot, toRot) {
-        // Simplified SRS wall kicks
-        const kicks = [
-            [0, 0], [-1, 0], [1, 0], [0, -1], [-1, -1], [1, -1]
-        ];
-        return kicks;
+    getWallKicks(pieceType, fromRot, toRot) {
+        // SRS wall kicks
+        if (pieceType === 'I') {
+            // I-piece has special wall kicks
+            const kicksI = [
+                [[0,0], [-2,0], [1,0], [-2,-1], [1,2]], // 0->1
+                [[0,0], [-1,0], [2,0], [-1,2], [2,-1]], // 1->2
+                [[0,0], [2,0], [-1,0], [2,1], [-1,-2]], // 2->3
+                [[0,0], [1,0], [-2,0], [1,-2], [-2,1]]  // 3->0
+            ];
+            const kicksIReverse = [
+                [[0,0], [2,0], [-1,0], [2,1], [-1,-2]], // 1->0
+                [[0,0], [1,0], [-2,0], [1,-2], [-2,1]], // 2->1
+                [[0,0], [-2,0], [1,0], [-2,-1], [1,2]], // 3->2
+                [[0,0], [-1,0], [2,0], [-1,2], [2,-1]]  // 0->3
+            ];
+            
+            if ((fromRot + 1) % 4 === toRot) {
+                return kicksI[fromRot];
+            } else {
+                return kicksIReverse[(fromRot + 3) % 4];
+            }
+        } else {
+            // All other pieces use standard kicks
+            const kicks = [
+                [[0,0], [-1,0], [-1,1], [0,-2], [-1,-2]], // 0->1
+                [[0,0], [1,0], [1,-1], [0,2], [1,2]],      // 1->2
+                [[0,0], [1,0], [1,1], [0,-2], [1,-2]],     // 2->3
+                [[0,0], [-1,0], [-1,-1], [0,2], [-1,2]]   // 3->0
+            ];
+            const kicksReverse = [
+                [[0,0], [1,0], [1,1], [0,-2], [1,-2]],    // 1->0
+                [[0,0], [-1,0], [-1,-1], [0,2], [-1,2]],  // 2->1
+                [[0,0], [-1,0], [-1,1], [0,-2], [-1,-2]], // 3->2
+                [[0,0], [1,0], [1,-1], [0,2], [1,2]]      // 0->3
+            ];
+            
+            if ((fromRot + 1) % 4 === toRot) {
+                return kicks[fromRot];
+            } else {
+                return kicksReverse[(fromRot + 3) % 4];
+            }
+        }
     }
     
     getRotatedPiece() {
