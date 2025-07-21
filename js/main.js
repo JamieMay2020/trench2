@@ -335,7 +335,7 @@ async function selectGame() {
     if (selectedGame.id === 'twitter') {
         playSound('game-select');
         // Open Twitter link in new tab - CHANGE THIS URL TO YOUR TWITTER
-        window.open('https://twitter.com/your_twitter_handle', '_blank');
+        window.open('https://x.com/TrenchBoyTM', '_blank');
         return;
     }
     
