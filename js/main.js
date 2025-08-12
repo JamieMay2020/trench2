@@ -457,7 +457,7 @@ function showContractAddress() {
     };
     
     // Contract address - CHANGE THIS TO YOUR ACTUAL CONTRACT ADDRESS
-    const contractAddress = '0x1234567890abcdef1234567890abcdef12345678';
+    const contractAddress = '';
     
     // Clear screen with theme colors
     ctx.fillStyle = colors.bg;
@@ -1175,3 +1175,4 @@ document.addEventListener('keydown', (e) => {
         cycleColorTheme();
     }
 });
+
